@@ -3089,6 +3089,7 @@ export class EditableColumn implements AfterViewInit {
                 if (this.dt.isEditingCellValid()) {
                     this.closeEditingCell();
                     this.dt.onEditComplete.emit({ field: this.field, data: this.data });
+                    this.moveToNextDownCell(event);
                 }
     
                 event.preventDefault();
@@ -3119,7 +3120,7 @@ export class EditableColumn implements AfterViewInit {
     findCell(element) {
         if (element) {
             let cell = element;
-            while (cell && !DomHandler.hasClass(cell, 'ui-editing-cell')) {
+            while (cell && !DomHandler.hasClass(cell, 'ui-editable-column')) {
                 cell = cell.parentElement;
             }
 
@@ -3146,6 +3147,18 @@ export class EditableColumn implements AfterViewInit {
         let currentCell = this.findCell(event.target);
         let row = currentCell.parentElement;
         let targetCell = this.findNextEditableColumn(currentCell);
+
+        if (targetCell) {
+            DomHandler.invokeElementMethod(event.target, 'blur');
+            DomHandler.invokeElementMethod(targetCell, 'click');
+            event.preventDefault();
+        }
+    }
+
+    moveToNextDownCell(event: KeyboardEvent) {
+        let currentCell = this.findCell(event.target);
+        let row = currentCell.parentElement;
+        let targetCell = this.findNextEditableRowCell(currentCell);
 
         if (targetCell) {
             DomHandler.invokeElementMethod(event.target, 'blur');
@@ -3190,6 +3203,32 @@ export class EditableColumn implements AfterViewInit {
                 return nextCell;
             else
                 return this.findNextEditableColumn(nextCell);
+        }
+        else {
+            return null;
+        }
+    }
+
+    findNextEditableRowCell(cell: Element) {
+        var nextCell = null;
+        var curRow = cell.parentElement;
+        var nextRow = curRow.nextElementSibling;
+        if (nextRow) {
+            var nextRowCells = nextRow.children;
+            var curCellIndex = cell.cellIndex;
+            nextCell = nextRowCells[curCellIndex];
+        }
+        else{
+            //если это последний ряд
+            var table = cell.parentElement.parentElement;
+            var rowsCount = table.children.length;
+            if(curRow.rowIndex >= rowsCount){
+                nextCell = table.firstElementChild.children[cell.cellIndex];
+            }
+        }
+        
+        if (nextCell) {
+            return nextCell;
         }
         else {
             return null;
