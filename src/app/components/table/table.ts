@@ -3215,15 +3215,15 @@ export class EditableColumn implements AfterViewInit {
         var nextRow = curRow.nextElementSibling;
         if (nextRow) {
             var nextRowCells = nextRow.children;
-            var curCellIndex = cell.cellIndex;
+            var curCellIndex = (<HTMLTableCellElement>cell).cellIndex;
             nextCell = nextRowCells[curCellIndex];
         }
         else{
             //если это последний ряд
             var table = cell.parentElement.parentElement;
             var rowsCount = table.children.length;
-            if(curRow.rowIndex >= rowsCount){
-                nextCell = table.firstElementChild.children[cell.cellIndex];
+            if((<HTMLTableRowElement>curRow).rowIndex >= rowsCount){
+                nextCell = table.firstElementChild.children[(<HTMLTableCellElement>cell).cellIndex];
             }
         }
         
