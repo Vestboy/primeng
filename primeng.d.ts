@@ -1,4 +1,4 @@
-export * from 'src/app/components/common/api';
+export * from './components/common/api';
 export * from './components/common/shared';
 export * from './components/accordion/accordion';
 export * from './components/autocomplete/autocomplete';
