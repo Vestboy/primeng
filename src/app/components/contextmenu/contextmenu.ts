@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { DomHandler } from '../dom/domhandler';
 import { MenuItem } from '../common/menuitem';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { InnerMessageService } from 'src/app/_services/inner.message.service';
 
 @Component({
     selector: 'p-contextMenuSub',
@@ -71,7 +73,7 @@ export class ContextMenuSub {
         }, 1000);
     }
 
-    itemClick(event, item: MenuItem)  {
+    itemClick(event, item: MenuItem) {
         if (item.disabled) {
             event.preventDefault();
             return;
@@ -155,7 +157,10 @@ export class ContextMenu implements AfterViewInit, OnDestroy {
 
     triggerEventListener: any;
 
-    constructor(public el: ElementRef, public renderer: Renderer2, public zone: NgZone) { }
+    subscription: Subscription;
+    contextMenuOpennedMessage = 'contextMenuOpenned';
+
+    constructor(public el: ElementRef, public renderer: Renderer2, public zone: NgZone, private messageService: InnerMessageService) { }
 
     ngAfterViewInit() {
         if (this.global) {
@@ -178,6 +183,9 @@ export class ContextMenu implements AfterViewInit, OnDestroy {
             else
                 DomHandler.appendChild(this.containerViewChild.nativeElement, this.appendTo);
         }
+
+        this.el.nativeElement.id = Math.random();
+        this.subscription = this.messageService.getMessage().subscribe(message => { this.onMessageReceived(message); });
     }
 
     show(event?: MouseEvent) {
@@ -190,6 +198,8 @@ export class ContextMenu implements AfterViewInit, OnDestroy {
         if (event) {
             event.preventDefault();
         }
+
+        this.sendMessage(this.contextMenuOpennedMessage + '_' + this.el.nativeElement.id);
     }
 
     hide() {
@@ -287,6 +297,26 @@ export class ContextMenu implements AfterViewInit, OnDestroy {
 
         if (this.appendTo) {
             this.el.nativeElement.appendChild(this.containerViewChild.nativeElement);
+        }
+    }
+
+    sendMessage(message: string): void {
+        // send message to subscribers via observable subject
+        this.messageService.sendMessage(message);
+    }
+
+    clearMessage(): void {
+        this.messageService.clearMessage();
+    }
+
+    onMessageReceived(message: string): void {
+
+        if (message && message.includes(this.contextMenuOpennedMessage)) {
+            const opennedMenuId = message.substring(message.indexOf('_') + 1, message.length);
+            if (opennedMenuId && this.el.nativeElement.id !== opennedMenuId) {
+                this.hide();
+                this.clearMessage();
+            }
         }
     }
 

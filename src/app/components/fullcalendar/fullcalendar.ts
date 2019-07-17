@@ -1,29 +1,29 @@
-import {NgModule,Component,ElementRef,OnDestroy,Input,OnInit,AfterViewChecked} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {Calendar} from 'fullcalendar';
+import { NgModule, Component, ElementRef, OnDestroy, Input, OnInit, AfterViewChecked } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FullCalendar as Calendar } from 'fullcalendar';
 
 @Component({
     selector: 'p-fullCalendar',
     template: '<div [ngStyle]="style" [class]="styleClass"></div>'
 })
-export class FullCalendar implements OnDestroy,OnInit,AfterViewChecked {
-        
+export class FullCalendar implements OnDestroy, OnInit, AfterViewChecked {
+
     @Input() style: any;
 
     @Input() styleClass: string;
-             
+
     initialized: boolean;
-            
+
     calendar: any;
-    
+
     config: any;
 
     _options: any;
 
     _events: any[];
 
-    constructor(public el: ElementRef) {}
-    
+    constructor(public el: ElementRef) { }
+
     ngOnInit() {
         this.config = {
             theme: true
@@ -35,13 +35,13 @@ export class FullCalendar implements OnDestroy,OnInit,AfterViewChecked {
             }
         }
     }
-    
+
     ngAfterViewChecked() {
         if (!this.initialized && this.el.nativeElement.offsetParent) {
             this.initialize();
         }
     }
-    
+
     @Input() get events(): any {
         return this._events;
     }
@@ -72,10 +72,11 @@ export class FullCalendar implements OnDestroy,OnInit,AfterViewChecked {
     }
 
     initialize() {
-        this.calendar = new Calendar(this.el.nativeElement.children[0], this.config);
+        //this.calendar = new Calendar(this.el.nativeElement.children[0], this.config);
+        this.calendar = new Calendar(this.el.nativeElement.children[0]);
         this.calendar.render();
         this.initialized = true;
-        
+
         if (this.events) {
             this.calendar.removeAllEventSources();
             this.calendar.addEventSource(this.events);
@@ -85,13 +86,13 @@ export class FullCalendar implements OnDestroy,OnInit,AfterViewChecked {
     getCalendar() {
         return this.calendar;
     }
-     
+
     ngOnDestroy() {
         if (this.calendar) {
             this.calendar.destroy();
             this.initialized = false;
             this.calendar = null;
-        }        
+        }
     }
 }
 
