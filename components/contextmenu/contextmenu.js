@@ -16,6 +16,7 @@ var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var domhandler_1 = require("../dom/domhandler");
 var router_1 = require("@angular/router");
+var inner_message_service_1 = require("../common/inner.message.service");
 var ContextMenuSub = /** @class */ (function () {
     function ContextMenuSub(contextMenu) {
         this.contextMenu = contextMenu;
@@ -100,13 +101,15 @@ var ContextMenuSub = /** @class */ (function () {
 }());
 exports.ContextMenuSub = ContextMenuSub;
 var ContextMenu = /** @class */ (function () {
-    function ContextMenu(el, renderer, zone) {
+    function ContextMenu(el, renderer, zone, messageService) {
         this.el = el;
         this.renderer = renderer;
         this.zone = zone;
+        this.messageService = messageService;
         this.autoZIndex = true;
         this.baseZIndex = 0;
         this.triggerEvent = 'contextmenu';
+        this.contextMenuOpennedMessage = 'contextMenuOpenned';
     }
     ContextMenu.prototype.ngAfterViewInit = function () {
         var _this = this;
@@ -129,6 +132,8 @@ var ContextMenu = /** @class */ (function () {
             else
                 domhandler_1.DomHandler.appendChild(this.containerViewChild.nativeElement, this.appendTo);
         }
+        this.el.nativeElement.id = Math.random();
+        this.subscription = this.messageService.getMessage().subscribe(function (message) { _this.onMessageReceived(message); });
     };
     ContextMenu.prototype.show = function (event) {
         this.position(event);
@@ -139,6 +144,7 @@ var ContextMenu = /** @class */ (function () {
         if (event) {
             event.preventDefault();
         }
+        this.sendMessage(this.contextMenuOpennedMessage + '_' + this.el.nativeElement.id);
     };
     ContextMenu.prototype.hide = function () {
         this.containerViewChild.nativeElement.style.display = 'none';
@@ -222,6 +228,22 @@ var ContextMenu = /** @class */ (function () {
             this.el.nativeElement.appendChild(this.containerViewChild.nativeElement);
         }
     };
+    ContextMenu.prototype.sendMessage = function (message) {
+        // send message to subscribers via observable subject
+        this.messageService.sendMessage(message);
+    };
+    ContextMenu.prototype.clearMessage = function () {
+        this.messageService.clearMessage();
+    };
+    ContextMenu.prototype.onMessageReceived = function (message) {
+        if (message && message.includes(this.contextMenuOpennedMessage)) {
+            var opennedMenuId = message.substring(message.indexOf('_') + 1, message.length);
+            if (opennedMenuId && this.el.nativeElement.id !== opennedMenuId) {
+                this.hide();
+                this.clearMessage();
+            }
+        }
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Array)
@@ -267,7 +289,7 @@ var ContextMenu = /** @class */ (function () {
             selector: 'p-contextMenu',
             template: "\n        <div #container [ngClass]=\"'ui-contextmenu ui-widget ui-widget-content ui-corner-all ui-shadow'\"\n            [class]=\"styleClass\" [ngStyle]=\"style\">\n            <p-contextMenuSub [item]=\"model\" root=\"root\"></p-contextMenuSub>\n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer2, core_1.NgZone])
+        __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer2, core_1.NgZone, inner_message_service_1.InnerMessageService])
     ], ContextMenu);
     return ContextMenu;
 }());

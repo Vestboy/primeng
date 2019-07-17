@@ -64,6 +64,7 @@ var FullCalendar = /** @class */ (function () {
     });
     FullCalendar.prototype.initialize = function () {
         this.calendar = new fullcalendar_1.Calendar(this.el.nativeElement.children[0], this.config);
+        // this.calendar = new Calendar(this.el.nativeElement.children[0]);
         this.calendar.render();
         this.initialized = true;
         if (this.events) {

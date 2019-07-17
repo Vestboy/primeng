@@ -4,7 +4,7 @@ import { DomHandler } from '../dom/domhandler';
 import { MenuItem } from '../common/menuitem';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { InnerMessageService } from 'src/app/_services/inner.message.service';
+import { InnerMessageService } from '../common/inner.message.service';
 
 @Component({
     selector: 'p-contextMenuSub',

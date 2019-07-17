@@ -1,5 +1,7 @@
 import { ElementRef, AfterViewInit, OnDestroy, Renderer2, NgZone } from '@angular/core';
 import { MenuItem } from '../common/menuitem';
+import { Subscription } from 'rxjs';
+import { InnerMessageService } from '../common/inner.message.service';
 export declare class ContextMenuSub {
     contextMenu: ContextMenu;
     item: MenuItem;
@@ -18,6 +20,7 @@ export declare class ContextMenu implements AfterViewInit, OnDestroy {
     el: ElementRef;
     renderer: Renderer2;
     zone: NgZone;
+    private messageService;
     model: MenuItem[];
     global: boolean;
     target: any;
@@ -31,7 +34,9 @@ export declare class ContextMenu implements AfterViewInit, OnDestroy {
     documentClickListener: any;
     windowResizeListener: any;
     triggerEventListener: any;
-    constructor(el: ElementRef, renderer: Renderer2, zone: NgZone);
+    subscription: Subscription;
+    contextMenuOpennedMessage: string;
+    constructor(el: ElementRef, renderer: Renderer2, zone: NgZone, messageService: InnerMessageService);
     ngAfterViewInit(): void;
     show(event?: MouseEvent): void;
     hide(): void;
@@ -42,6 +47,9 @@ export declare class ContextMenu implements AfterViewInit, OnDestroy {
     unbindGlobalListeners(): void;
     onWindowResize(event: any): void;
     ngOnDestroy(): void;
+    sendMessage(message: string): void;
+    clearMessage(): void;
+    onMessageReceived(message: string): void;
 }
 export declare class ContextMenuModule {
 }

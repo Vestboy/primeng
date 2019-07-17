@@ -11,6 +11,7 @@ var i1 = require("./contextmenu");
 var i2 = require("../../../../node_modules/@angular/router/router.ngfactory");
 var i3 = require("@angular/common");
 var i4 = require("@angular/router");
+var i5 = require("../common/inner.message.service");
 var ContextMenuModuleNgFactory = i0.ɵcmf(i1.ContextMenuModule, [], function (_l) { return i0.ɵmod([i0.ɵmpd(512, i0.ComponentFactoryResolver, i0.ɵCodegenComponentFactoryResolver, [[8, [i2.ɵEmptyOutletComponentNgFactory]], [3, i0.ComponentFactoryResolver], i0.NgModuleRef]), i0.ɵmpd(4608, i3.NgLocalization, i3.NgLocaleLocalization, [i0.LOCALE_ID, [2, i3.ɵangular_packages_common_common_a]]), i0.ɵmpd(1073742336, i3.CommonModule, i3.CommonModule, []), i0.ɵmpd(1073742336, i4.RouterModule, i4.RouterModule, [[2, i4.ɵangular_packages_router_router_a], [2, i4.Router]]), i0.ɵmpd(1073742336, i1.ContextMenuModule, i1.ContextMenuModule, [])]); });
 exports.ContextMenuModuleNgFactory = ContextMenuModuleNgFactory;
 var styles_ContextMenuSub = [];
@@ -55,7 +56,7 @@ var RenderType_ContextMenu = i0.ɵcrt({ encapsulation: 2, styles: styles_Context
 exports.RenderType_ContextMenu = RenderType_ContextMenu;
 function View_ContextMenu_0(_l) { return i0.ɵvid(0, [i0.ɵqud(402653184, 1, { containerViewChild: 0 }), (_l()(), i0.ɵeld(1, 0, [[1, 0], ["container", 1]], null, 4, "div", [], null, null, null, null, null)), i0.ɵdid(2, 278528, null, 0, i3.NgClass, [i0.IterableDiffers, i0.KeyValueDiffers, i0.ElementRef, i0.Renderer2], { klass: [0, "klass"], ngClass: [1, "ngClass"] }, null), i0.ɵdid(3, 278528, null, 0, i3.NgStyle, [i0.KeyValueDiffers, i0.ElementRef, i0.Renderer2], { ngStyle: [0, "ngStyle"] }, null), (_l()(), i0.ɵeld(4, 0, null, null, 1, "p-contextMenuSub", [["root", "root"]], null, null, null, View_ContextMenuSub_0, RenderType_ContextMenuSub)), i0.ɵdid(5, 49152, null, 0, i1.ContextMenuSub, [i1.ContextMenu], { item: [0, "item"], root: [1, "root"] }, null)], function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.styleClass; var currVal_1 = "ui-contextmenu ui-widget ui-widget-content ui-corner-all ui-shadow"; _ck(_v, 2, 0, currVal_0, currVal_1); var currVal_2 = _co.style; _ck(_v, 3, 0, currVal_2); var currVal_3 = _co.model; var currVal_4 = "root"; _ck(_v, 5, 0, currVal_3, currVal_4); }, null); }
 exports.View_ContextMenu_0 = View_ContextMenu_0;
-function View_ContextMenu_Host_0(_l) { return i0.ɵvid(0, [(_l()(), i0.ɵeld(0, 0, null, null, 1, "p-contextMenu", [], null, null, null, View_ContextMenu_0, RenderType_ContextMenu)), i0.ɵdid(1, 4374528, null, 0, i1.ContextMenu, [i0.ElementRef, i0.Renderer2, i0.NgZone], null, null)], null, null); }
+function View_ContextMenu_Host_0(_l) { return i0.ɵvid(0, [(_l()(), i0.ɵeld(0, 0, null, null, 1, "p-contextMenu", [], null, null, null, View_ContextMenu_0, RenderType_ContextMenu)), i0.ɵdid(1, 4374528, null, 0, i1.ContextMenu, [i0.ElementRef, i0.Renderer2, i0.NgZone, i5.InnerMessageService], null, null)], null, null); }
 exports.View_ContextMenu_Host_0 = View_ContextMenu_Host_0;
 var ContextMenuNgFactory = i0.ɵccf("p-contextMenu", i1.ContextMenu, View_ContextMenu_Host_0, { model: "model", global: "global", target: "target", style: "style", styleClass: "styleClass", appendTo: "appendTo", autoZIndex: "autoZIndex", baseZIndex: "baseZIndex", triggerEvent: "triggerEvent" }, {}, []);
 exports.ContextMenuNgFactory = ContextMenuNgFactory;

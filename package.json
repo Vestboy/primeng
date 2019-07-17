@@ -9,6 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "build-services": "ngc -p tsconfig-serv-release.json",
     "build-components": "ngc -p tsconfig-release.json",
     "build-assets": "gulp build-assets",
     "build-exports": "gulp build-exports",
