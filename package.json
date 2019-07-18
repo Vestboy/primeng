@@ -72,5 +72,8 @@
     "primeicons": "1.0.0",
     "primeflex": "1.0.0-rc.1",
     "node-sass": "^4.5.3"
+  },
+  "dependencies": {
+    "default-passive-events": "^1.0.10"
   }
 }
