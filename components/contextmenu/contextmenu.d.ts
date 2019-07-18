@@ -32,6 +32,7 @@ export declare class ContextMenu implements AfterViewInit, OnDestroy {
     triggerEvent: string;
     containerViewChild: ElementRef;
     documentClickListener: any;
+    documentScrollListener: any;
     windowResizeListener: any;
     triggerEventListener: any;
     subscription: Subscription;

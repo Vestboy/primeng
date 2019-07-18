@@ -1,6 +1,6 @@
 import { NgModule, Component, ElementRef, OnDestroy, Input, OnInit, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FullCalendar as Calendar } from 'fullcalendar';
+import { Calendar } from 'fullcalendar';
 
 @Component({
     selector: 'p-fullCalendar',
@@ -72,7 +72,7 @@ export class FullCalendar implements OnDestroy, OnInit, AfterViewChecked {
     }
 
     initialize() {
-        this.calendar = new Calendar(this.el.nativeElement.children[0]);
+        this.calendar = new Calendar(this.el.nativeElement.children[0], this.config);
         // this.calendar = new Calendar(this.el.nativeElement.children[0]);
         this.calendar.render();
         this.initialized = true;

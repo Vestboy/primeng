@@ -197,6 +197,11 @@ var ContextMenu = /** @class */ (function () {
                 }
             });
         }
+        if (!this.documentScrollListener) {
+            this.documentScrollListener = this.renderer.listen('document', 'scroll', function (event) {
+                _this.hide();
+            });
+        }
         this.zone.runOutsideAngular(function () {
             if (!_this.windowResizeListener) {
                 _this.windowResizeListener = _this.onWindowResize.bind(_this);
@@ -208,6 +213,10 @@ var ContextMenu = /** @class */ (function () {
         if (this.documentClickListener) {
             this.documentClickListener();
             this.documentClickListener = null;
+        }
+        if (this.documentScrollListener) {
+            this.documentScrollListener();
+            this.documentScrollListener = null;
         }
         if (this.windowResizeListener) {
             window.removeEventListener('resize', this.windowResizeListener);
