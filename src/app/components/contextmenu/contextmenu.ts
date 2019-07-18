@@ -152,6 +152,7 @@ export class ContextMenu implements AfterViewInit, OnDestroy {
     @ViewChild('container') containerViewChild: ElementRef;
 
     documentClickListener: any;
+    documentScrollListener: any;
 
     windowResizeListener: any;
 
@@ -262,6 +263,12 @@ export class ContextMenu implements AfterViewInit, OnDestroy {
             });
         }
 
+        if (!this.documentScrollListener) {
+            this.documentScrollListener = this.renderer.listen('document', 'scroll', (event) => {
+                this.hide();
+            });
+        }
+
         this.zone.runOutsideAngular(() => {
             if (!this.windowResizeListener) {
                 this.windowResizeListener = this.onWindowResize.bind(this);
@@ -274,6 +281,11 @@ export class ContextMenu implements AfterViewInit, OnDestroy {
         if (this.documentClickListener) {
             this.documentClickListener();
             this.documentClickListener = null;
+        }
+
+        if (this.documentScrollListener) {
+            this.documentScrollListener();
+            this.documentScrollListener = null;
         }
 
         if (this.windowResizeListener) {
