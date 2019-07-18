@@ -5,7 +5,6 @@ import { MenuItem } from '../common/menuitem';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { InnerMessageService } from '../common/inner.message.service';
-require('default-passive-events');
 
 @Component({
     selector: 'p-contextMenuSub',

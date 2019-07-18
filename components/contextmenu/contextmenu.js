@@ -17,7 +17,6 @@ var common_1 = require("@angular/common");
 var domhandler_1 = require("../dom/domhandler");
 var router_1 = require("@angular/router");
 var inner_message_service_1 = require("../common/inner.message.service");
-require('default-passive-events');
 var ContextMenuSub = /** @class */ (function () {
     function ContextMenuSub(contextMenu) {
         this.contextMenu = contextMenu;
