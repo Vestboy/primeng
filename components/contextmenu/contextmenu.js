@@ -110,6 +110,7 @@ var ContextMenu = /** @class */ (function () {
         this.baseZIndex = 0;
         this.triggerEvent = 'contextmenu';
         this.contextMenuOpennedMessage = 'contextMenuOpenned';
+        this.keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
     }
     ContextMenu.prototype.ngAfterViewInit = function () {
         var _this = this;
@@ -145,10 +146,12 @@ var ContextMenu = /** @class */ (function () {
             event.preventDefault();
         }
         this.sendMessage(this.contextMenuOpennedMessage + '_' + this.el.nativeElement.id);
+        this.disableScroll();
     };
     ContextMenu.prototype.hide = function () {
         this.containerViewChild.nativeElement.style.display = 'none';
         this.unbindGlobalListeners();
+        this.enableScroll();
     };
     ContextMenu.prototype.moveOnTop = function () {
         if (this.autoZIndex) {
@@ -252,6 +255,36 @@ var ContextMenu = /** @class */ (function () {
                 this.clearMessage();
             }
         }
+    };
+    ContextMenu.prototype.preventDefault = function (e) {
+        e = e || window.event;
+        if (e.preventDefault)
+            e.preventDefault();
+        e.returnValue = false;
+    };
+    ContextMenu.prototype.preventDefaultForScrollKeys = function (e) {
+        if (this.keys[e.keyCode]) {
+            this.preventDefault(e);
+            return false;
+        }
+    };
+    ContextMenu.prototype.disableScroll = function () {
+        if (window.addEventListener) // older FF
+            window.addEventListener('DOMMouseScroll', this.preventDefault, false);
+        document.addEventListener('wheel', this.preventDefault, { passive: false }); // Disable scrolling in Chrome
+        window.onwheel = this.preventDefault; // modern standard
+        window.onmousewheel = document.onwheel = this.preventDefault; // older browsers, IE
+        window.ontouchmove = this.preventDefault; // mobile
+        document.onkeydown = this.preventDefaultForScrollKeys;
+    };
+    ContextMenu.prototype.enableScroll = function () {
+        if (window.removeEventListener)
+            window.removeEventListener('DOMMouseScroll', this.preventDefault, false);
+        document.removeEventListener('wheel', this.preventDefault); // Enable scrolling in Chrome
+        window.onmousewheel = document.onwheel = null;
+        window.onwheel = null;
+        window.ontouchmove = null;
+        document.onkeydown = null;
     };
     __decorate([
         core_1.Input(),

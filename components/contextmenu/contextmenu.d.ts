@@ -51,6 +51,16 @@ export declare class ContextMenu implements AfterViewInit, OnDestroy {
     sendMessage(message: string): void;
     clearMessage(): void;
     onMessageReceived(message: string): void;
+    keys: {
+        37: number;
+        38: number;
+        39: number;
+        40: number;
+    };
+    preventDefault(e: any): void;
+    preventDefaultForScrollKeys(e: any): boolean;
+    disableScroll(): void;
+    enableScroll(): void;
 }
 export declare class ContextMenuModule {
 }
